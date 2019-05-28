@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import '../assets/styles/site.scss';
 import Login from '../login/login';
 import PrivateRoute from '../routes/privateRoute';
 import PageNotFound from '../pageNotFound/pageNotFound';

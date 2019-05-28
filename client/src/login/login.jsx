@@ -16,18 +16,26 @@ class Login extends React.Component {
   }
   render() {
     const { email, password, error } = this.state;
-    const { target } = this.props.location.state || {target: {pathname: '/'}};
+    const { target } = this.props.location.state || { target: { pathname: '/' } };
     if (this.props.session && this.props.session.loggedIn && this.props.session.user) {
       return <Redirect to={target} />
     }
     return (
-      <form>
-        {error && <small>{error}</small>}
-        <input type="email" name="email" value={email} placeholder="Enter your email" onChange={(e) => this.onChange('email', e.target.value)} />
-        <input type="password" name="password" value={password} placeholder="Enter your password" onChange={(e) => this.onChange('password', e.target.value)} />
-        <button type="submit" onClick={this.onSubmit}>Login</button>
-        Not a user?<Link to="/sign-in">Sign in</Link>
-      </form>
+      <div className="container">
+        <form className="login-form border-gray">
+          {error && <small>{error}</small>}
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input className="form-control" type="email" name="email" value={email} placeholder="Enter your email" onChange={(e) => this.onChange('email', e.target.value)} />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input className="form-control" type="password" name="password" value={password} placeholder="Enter your password" onChange={(e) => this.onChange('password', e.target.value)} />
+          </div>
+          <button type="submit" className="btn btn-block btn-primary" onClick={this.onSubmit}>Login</button>
+          <div className="d-flex justify-content-center pt-2">Not a user?<Link to="/sign-in">Sign up</Link></div>
+        </form>
+      </div>
     );
   }
 
@@ -39,11 +47,11 @@ class Login extends React.Component {
     const { email, password } = this.state;
     e.preventDefault();
     if (!email || !password) {
-        this.setState({error: 'Please provide valid email or password'});
-        return;
+      this.setState({ error: 'Please provide valid email or password' });
+      return;
     }
 
-    this.props.loginAction({email, password});
+    this.props.loginAction({ email, password });
   }
 }
 

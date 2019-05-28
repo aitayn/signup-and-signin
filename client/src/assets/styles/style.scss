@@ -1,0 +1,20 @@
+html, body,  #root, main {
+    height: 100%;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.border-gray {
+    border: 1px solid $gray-400;
+    border-radius: 4px;
+}
+
+.login-form{
+    padding: 25px;
+    width: 40%;
+}
