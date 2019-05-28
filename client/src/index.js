@@ -8,6 +8,7 @@ import * as history from 'history';
 import App from './app/app';
 import { rootReducer, initialState } from './store';
 import * as serviceWorker from './serviceWorker';
+import apiMiddleware from './api/middlewares/api';
 
 
 export const appHistory = history.createBrowserHistory();
@@ -16,6 +17,7 @@ export const appHistory = history.createBrowserHistory();
 const enhancers = [];
 const middleware = [
     thunk,
+    apiMiddleware,
     routerMiddleware(history)
 ];
 if (process.env.NODE_ENV === 'development') {
@@ -25,7 +27,6 @@ if (process.env.NODE_ENV === 'development') {
         enhancers.push(devToolsExtension())
     }
 }
-console.log(initialState);
 
 const store = createStore(rootReducer, initialState, compose(applyMiddleware(...middleware), ...enhancers));
 
