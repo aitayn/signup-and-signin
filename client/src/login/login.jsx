@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
-import { loginAction } from './actions/sessionAction';
+import { login } from './actions/sessionAction';
 
 class Login extends React.Component {
 
@@ -23,7 +23,6 @@ class Login extends React.Component {
     return (
       <div className="container">
         <form className="login-form border-gray">
-          {error && <small>{error}</small>}
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <input className="form-control" type="email" name="email" value={email} placeholder="Enter your email" onChange={(e) => this.onChange('email', e.target.value)} />
@@ -33,7 +32,8 @@ class Login extends React.Component {
             <input className="form-control" type="password" name="password" value={password} placeholder="Enter your password" onChange={(e) => this.onChange('password', e.target.value)} />
           </div>
           <button type="submit" className="btn btn-block btn-primary" onClick={this.onSubmit}>Login</button>
-          <div className="d-flex justify-content-center pt-2">Not a user?<Link to="/sign-in">Sign up</Link></div>
+          {error && <small className="text-danger">{error}</small>}
+          <div className="d-flex justify-content-center pt-2">Not a user?<Link to="/sign-up">Sign up</Link></div>
         </form>
       </div>
     );
@@ -51,7 +51,7 @@ class Login extends React.Component {
       return;
     }
 
-    this.props.loginAction({ email, password });
+    this.props.login({ email, password });
   }
 }
 
@@ -60,7 +60,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProp = dispatch => bindActionCreators({
-  loginAction
+  login
 }, dispatch);
 
 export default connect(
