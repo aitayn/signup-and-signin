@@ -11,7 +11,8 @@ export const rootReducer = combineReducers({
 export const initialState = {
     session:{
         loading: false,
-        loggedIn: false,
-        user: null
+        loggedIn: (localStorage.getItem('user') && !!JSON.parse(localStorage.getItem('user')).accessToken) || false,
+        user: (localStorage.getItem('user') && JSON.parse(localStorage.getItem('user'))) || null,
+        error: false
     }
 }

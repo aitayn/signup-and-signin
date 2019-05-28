@@ -6,7 +6,11 @@ const PrivateRoute = ({ component: Component, session, ...rest }) => {
     return (
         <Route {...rest} render={(props) => {
             return (session && session.loggedIn && session.user ? <Component {...props} />
-            : <Redirect to='/login' />);
+                : <Redirect to={{
+                    pathname: "/login",
+                    state: { target: props.location }
+                }} />
+            );
         }} />
     );
 }
