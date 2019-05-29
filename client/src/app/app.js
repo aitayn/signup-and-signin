@@ -6,12 +6,16 @@ import PrivateRoute from '../routes/privateRoute';
 import PageNotFound from '../pageNotFound/pageNotFound';
 import Home from '../home/home';
 import SignUp from '../login/signUp';
+import LoadingSpinner from '../loader/loadingSpinner';
+import { connect } from "react-redux";
 
 class App extends React.Component {
   render() {
+    const { loader } = this.props;
     return (
       <BrowserRouter>
         <main role="main">
+          {loader.loading && <LoadingSpinner message={loader.message} fullscreen={true} />}
           <Switch>
             <PrivateRoute path="/" component={Home} exact />
             <Route path="/login" component={Login} />
@@ -24,4 +28,10 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const mapStateToProp = state => ({
+  loader: state.loader
+})
+
+export default connect(
+  mapStateToProp, null
+)(App);

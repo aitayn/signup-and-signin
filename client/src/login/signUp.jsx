@@ -3,6 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import { signUp } from './actions/sessionAction';
+import { startLoader, stopLoader } from '../loader/actions/loaderAction';
 
 class SignUp extends React.Component {
 
@@ -14,6 +15,17 @@ class SignUp extends React.Component {
             email: '',
             password: '',
             error: null
+        }
+    }
+    componentWillReceiveProps(nextprops) {
+        const { session, signUp } = this.props;
+        if (nextprops.session && nextprops.session !== session && nextprops.session.loggedIn && nextprops.session.user) {
+            this.props.stopLoader();
+        }
+
+        if (nextprops.signUp && nextprops.signUp !== signUp && nextprops.signUp.data && nextprops.signUp.error) {
+            this.setState({ error: nextprops.signUp.data });
+            this.props.stopLoader();
         }
     }
     render() {
@@ -62,17 +74,20 @@ class SignUp extends React.Component {
             this.setState({ error: 'All the fields are mandatory.' });
             return;
         }
-
+        this.props.startLoader('Signing Up...');
         this.props.signUp({ email, password, firstName, lastName });
     }
 }
 
 const mapStateToProps = state => ({
-    session: state.session
+    session: state.session,
+    signUp: state.signUp
 });
 
 const mapDispatchToProp = dispatch => bindActionCreators({
-    signUp
+    signUp,
+    startLoader,
+    stopLoader
 }, dispatch);
 
 export default connect(

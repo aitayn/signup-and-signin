@@ -3,6 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import { login } from './actions/sessionAction';
+import { startLoader, stopLoader } from '../loader/actions/loaderAction';
 
 class Login extends React.Component {
 
@@ -14,6 +15,19 @@ class Login extends React.Component {
       error: null
     }
   }
+
+  componentWillReceiveProps(nextprops){
+    const { session } = this.props;
+    if(nextprops.session && nextprops.session !== session && nextprops.session.loggedIn && nextprops.session.user) {
+      this.props.stopLoader();
+    }
+
+    if(nextprops.session && nextprops.session !== session && nextprops.session.error) {
+      this.setState({error: nextprops.session.error});
+      this.props.stopLoader();
+    }
+  }
+
   render() {
     const { email, password, error } = this.state;
     const { target } = this.props.location.state || { target: { pathname: '/' } };
@@ -50,7 +64,7 @@ class Login extends React.Component {
       this.setState({ error: 'Please provide valid email or password' });
       return;
     }
-
+    this.props.startLoader('Logging In...');
     this.props.login({ email, password });
   }
 }
@@ -60,7 +74,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProp = dispatch => bindActionCreators({
-  login
+  login,
+  startLoader,
+  stopLoader
 }, dispatch);
 
 export default connect(

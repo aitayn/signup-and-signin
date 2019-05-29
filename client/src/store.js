@@ -1,11 +1,13 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import { SessionReducer, SignupReducer } from './login/reducers/sessionReducer';
+import { LoaderReducer } from './loader/reducers/loaderReducer';
 
 export const rootReducer = combineReducers({
     routing: routerReducer,
     session: SessionReducer,
-    signUp: SignupReducer
+    signUp: SignupReducer,
+    loader: LoaderReducer
 });
 
 
@@ -20,5 +22,9 @@ export const initialState = {
         loading: false,
         data: null,
         error: false
+    },
+    loader: {
+        loading: false,
+        message: null
     }
 }
