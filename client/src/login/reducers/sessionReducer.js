@@ -1,4 +1,4 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_ERROR, SIGNUP_SUCCESS, SIGNUP_REQUEST, SIGNUP_ERROR } from "../../contants/dispatch";
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_ERROR, SIGNUP_SUCCESS, SIGNUP_REQUEST, SIGNUP_ERROR, LOGOUT } from "../../contants/dispatch";
 
 export const SessionReducer = (state = {}, action) => {
     switch (action.type) {
@@ -27,6 +27,15 @@ export const SessionReducer = (state = {}, action) => {
                 user: null,
                 error: action.error
             });
+        case LOGOUT: {
+            localStorage.removeItem('user');
+            return Object.assign({}, state, {
+                loading: false,
+                loggedIn: false,
+                user: null,
+                error: false
+            });
+        }
         default:
             return state;
     }
